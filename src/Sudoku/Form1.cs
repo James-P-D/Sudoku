@@ -50,7 +50,7 @@ namespace Sudoku
             }
 
             //https://www.theguardian.com/lifeandstyle/2019/nov/18/sudoku-4612-easy
-            int[] board =
+            InitialiseBoard(new int[]
             {
                 0, 0, 0,  0, 0, 0,  0, 0, 0,
                 0, 3, 0,  0, 0, 0,  1, 6, 0,
@@ -63,14 +63,35 @@ namespace Sudoku
                 8, 0, 0,  6, 9, 0,  3, 5, 0,
                 0, 2, 6,  0, 0, 0,  0, 9, 0,
                 0, 0, 0,  0, 0, 0,  0, 0, 0,
-            };
+            });
 
-            InitialiseBoard(board);
+            //this.ResetBoard();
+
             InitializeComponent();
 
-            this.button1.Focus();
+            this.stepSolveButton.Focus();
         }
-        
+
+        private void ResetBoard()
+        {
+            InitialiseBoard(new int[]
+            {
+                0, 0, 0,  0, 0, 0,  0, 0, 0,
+                0, 0, 0,  0, 0, 0,  0, 0, 0,
+                0, 0, 0,  0, 0, 0,  0, 0, 0,
+
+                0, 0, 0,  0, 0, 0,  0, 0, 0,
+                0, 0, 0,  0, 0, 0,  0, 0, 0,
+                0, 0, 0,  0, 0, 0,  0, 0, 0,
+
+                0, 0, 0,  0, 0, 0,  0, 0, 0,
+                0, 0, 0,  0, 0, 0,  0, 0, 0,
+                0, 0, 0,  0, 0, 0,  0, 0, 0,
+            });
+        }
+
+        #region UI Event Handlers
+
         private void TextBox_TextChanged(object sender, EventArgs e)
         {
             if (!(sender as TextBox).Text.Equals(string.Empty))
@@ -90,7 +111,24 @@ namespace Sudoku
             }
         }
 
-        void InitialiseBoard(int[] board)
+        private void stepSolveButton_Click(object sender, EventArgs e)
+        {
+            this.Solve(true);
+        }
+
+        private void fullSolveButton_Click(object sender, EventArgs e)
+        {
+            this.Solve(false);
+        }
+
+        private void resetButton_Click(object sender, EventArgs e)
+        {
+            this.ResetBoard();
+        }
+
+        #endregion
+
+        private void InitialiseBoard(int[] board)
         {
             if ((board.Length != 9 * 9) || (this.InputBoxes.Count != 9 * 9))
             {
@@ -103,7 +141,7 @@ namespace Sudoku
             }
         }
 
-        int[] CreateArray()
+        private int[] CreateArray()
         {
             List<int> list = new List<int>();
             for (int i = 0; i < this.InputBoxes.Count; i++)
@@ -122,18 +160,31 @@ namespace Sudoku
             return list.ToArray();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Solve(bool single)
         {
-            //FSharpList<int> list = new FSharpList<int>(CreateArray());
-
-            var foo = Library.solutions(ListModule.OfSeq(CreateArray()));
-            var bar = foo.FirstOrDefault();
-            if (bar != null)
+            var easySolutions = Library.findEasySolutions(ListModule.OfSeq(CreateArray()));
+            Console.WriteLine("{0} easy solutions found", easySolutions.Length);
+            
+            while (easySolutions.Length > 0)
             {
-                int i1 = bar.Item1;
-                int i2 = bar.Item2.FirstOrDefault();
-                this.InputBoxes[i1].Text = i2.ToString();
+                foreach (var easySolution in easySolutions)
+                {
+                    int index = easySolution.Item1;
+                    int solution = easySolution.Item2.FirstOrDefault();
+
+                    Console.WriteLine("Easy solution: ({0}, {1}) = {2}", (index / 9), (index % 9), solution);
+                    this.InputBoxes[index].Text = solution.ToString();
+                    if (single)
+                    {
+                        return;
+                    }
+                }
+
+                easySolutions = Library.findEasySolutions(ListModule.OfSeq(CreateArray()));
             }
+
+            // Find 6 in middle square!
+            Console.WriteLine(("Now here!"));
         }
     }
 }

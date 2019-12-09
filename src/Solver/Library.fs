@@ -61,4 +61,8 @@ let findMissingNumbers (l:list<int>) = [1..9] |> List.where(fun i -> not (contai
 
 let singleCells (l:list<int>) = zeroPositions l |> List.where(fun i -> ((getTakenValues i l).Length = 8))
 
-let solutions (l:list<int>) = [for i in singleCells l -> (i, findMissingNumbers (getTakenValues i l))]
+let findPossibleNumbers i (l:list<int>) = i
+
+let findEasySolutions (l:list<int>) = [for i in singleCells l -> (i, findMissingNumbers (getTakenValues i l))]
+
+let findMediumSolutions (l:list<int>) = [for i in zeroPositions l -> (i, findPossibleNumbers i l)]

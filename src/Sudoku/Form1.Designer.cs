@@ -28,34 +28,60 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
+            this.stepSolveButton = new System.Windows.Forms.Button();
+            this.fullSolveButton = new System.Windows.Forms.Button();
+            this.resetButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // button1
+            // stepSolveButton
             // 
-            this.button1.Location = new System.Drawing.Point(661, 100);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(123, 82);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.stepSolveButton.Location = new System.Drawing.Point(413, 65);
+            this.stepSolveButton.Name = "stepSolveButton";
+            this.stepSolveButton.Size = new System.Drawing.Size(123, 82);
+            this.stepSolveButton.TabIndex = 0;
+            this.stepSolveButton.Text = "Step Solve";
+            this.stepSolveButton.UseVisualStyleBackColor = true;
+            this.stepSolveButton.Click += new System.EventHandler(this.stepSolveButton_Click);
+            // 
+            // fullSolveButton
+            // 
+            this.fullSolveButton.Location = new System.Drawing.Point(413, 153);
+            this.fullSolveButton.Name = "fullSolveButton";
+            this.fullSolveButton.Size = new System.Drawing.Size(123, 82);
+            this.fullSolveButton.TabIndex = 1;
+            this.fullSolveButton.Text = "Full Solve";
+            this.fullSolveButton.UseVisualStyleBackColor = true;
+            this.fullSolveButton.Click += new System.EventHandler(this.fullSolveButton_Click);
+            // 
+            // resetButton
+            // 
+            this.resetButton.Location = new System.Drawing.Point(413, 241);
+            this.resetButton.Name = "resetButton";
+            this.resetButton.Size = new System.Drawing.Size(123, 82);
+            this.resetButton.TabIndex = 2;
+            this.resetButton.Text = "Reset";
+            this.resetButton.UseVisualStyleBackColor = true;
+            this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(578, 418);
+            this.Controls.Add(this.resetButton);
+            this.Controls.Add(this.fullSolveButton);
+            this.Controls.Add(this.stepSolveButton);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Sudoku Solver";
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button stepSolveButton;
+        private System.Windows.Forms.Button fullSolveButton;
+        private System.Windows.Forms.Button resetButton;
     }
 }
 
