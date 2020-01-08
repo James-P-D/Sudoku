@@ -1,2 +1,2 @@
-*.fs linguist-detectable=true
-*.cs linguist-detectable=true
+* linguist-vendored
+*.fs linguist-vendored=false
