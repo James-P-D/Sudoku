@@ -66,3 +66,4 @@ let findPossibleNumbers i (l:list<int>) = i
 let findEasySolutions (l:list<int>) = [for i in singleCells l -> (i, findMissingNumbers (getTakenValues i l))]
 
 let findMediumSolutions (l:list<int>) = [for i in zeroPositions l -> (i, findPossibleNumbers i l)]
+

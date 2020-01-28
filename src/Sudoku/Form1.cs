@@ -13,8 +13,8 @@ namespace Sudoku
 {
     public partial class Form1 : Form
     {
-        private const int TEXTBOX_WIDTH = 30;
-        private const int TEXTBOX_HEIGHT = 30;
+        private const int TEXTBOX_WIDTH = 20;
+        private const int TEXTBOX_HEIGHT = 20;
         private const int BOARD_MARGIN = 50;
         private const int CELL_MARGIN = 10;
         private const int SMALL_MARGIN = 5;
