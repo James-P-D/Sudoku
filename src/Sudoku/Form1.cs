@@ -13,7 +13,7 @@ namespace Sudoku
 {
     public partial class Form1 : Form
     {
-        private const int TEXTBOX_WIDTH = 20;
+        private const int TEXTBOX_WIDTH = 30;
         private const int TEXTBOX_HEIGHT = 20;
         private const int BOARD_MARGIN = 50;
         private const int CELL_MARGIN = 10;
@@ -30,12 +30,14 @@ namespace Sudoku
                     TextBox textBox = new System.Windows.Forms.TextBox();
                     textBox.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 
-                    int xLocation = (x * TEXTBOX_WIDTH) + BOARD_MARGIN + SMALL_MARGIN;
+                    int xLocation = (x * TEXTBOX_WIDTH) + BOARD_MARGIN;
                     if (x >= 3) xLocation += CELL_MARGIN;
                     if (x >= 6) xLocation += CELL_MARGIN;
-                    int yLocation = (y * TEXTBOX_HEIGHT) + BOARD_MARGIN + SMALL_MARGIN;
+                    xLocation += (x * SMALL_MARGIN);
+                    int yLocation = (y * TEXTBOX_HEIGHT) + BOARD_MARGIN;
                     if (y >= 3) yLocation += CELL_MARGIN;
                     if (y >= 6) yLocation += CELL_MARGIN;
+                    yLocation += (y* SMALL_MARGIN);
 
                     textBox.Location = new System.Drawing.Point(xLocation, yLocation);
                     textBox.Name = "textBox1";
@@ -184,7 +186,9 @@ namespace Sudoku
             }
 
             // Find 6 in middle square!
-            Console.WriteLine(("Now here!"));
+            var mediumSolutions = Library.findMediumSolutions(ListModule.OfSeq(CreateArray()));
+
+            Console.WriteLine("Now here!");
         }
     }
 }

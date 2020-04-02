@@ -35,9 +35,9 @@
             // 
             // stepSolveButton
             // 
-            this.stepSolveButton.Location = new System.Drawing.Point(413, 65);
+            this.stepSolveButton.Location = new System.Drawing.Point(413, 49);
             this.stepSolveButton.Name = "stepSolveButton";
-            this.stepSolveButton.Size = new System.Drawing.Size(123, 82);
+            this.stepSolveButton.Size = new System.Drawing.Size(123, 75);
             this.stepSolveButton.TabIndex = 0;
             this.stepSolveButton.Text = "Step Solve";
             this.stepSolveButton.UseVisualStyleBackColor = true;
@@ -45,9 +45,9 @@
             // 
             // fullSolveButton
             // 
-            this.fullSolveButton.Location = new System.Drawing.Point(413, 153);
+            this.fullSolveButton.Location = new System.Drawing.Point(413, 134);
             this.fullSolveButton.Name = "fullSolveButton";
-            this.fullSolveButton.Size = new System.Drawing.Size(123, 82);
+            this.fullSolveButton.Size = new System.Drawing.Size(123, 75);
             this.fullSolveButton.TabIndex = 1;
             this.fullSolveButton.Text = "Full Solve";
             this.fullSolveButton.UseVisualStyleBackColor = true;
@@ -55,9 +55,9 @@
             // 
             // resetButton
             // 
-            this.resetButton.Location = new System.Drawing.Point(413, 241);
+            this.resetButton.Location = new System.Drawing.Point(413, 219);
             this.resetButton.Name = "resetButton";
-            this.resetButton.Size = new System.Drawing.Size(123, 82);
+            this.resetButton.Size = new System.Drawing.Size(123, 75);
             this.resetButton.TabIndex = 2;
             this.resetButton.Text = "Reset";
             this.resetButton.UseVisualStyleBackColor = true;
@@ -67,7 +67,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(578, 418);
+            this.ClientSize = new System.Drawing.Size(578, 367);
             this.Controls.Add(this.resetButton);
             this.Controls.Add(this.fullSolveButton);
             this.Controls.Add(this.stepSolveButton);
