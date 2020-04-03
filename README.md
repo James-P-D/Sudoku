@@ -15,7 +15,8 @@ For example, lets consider the following board taken from the [Guardian Easy Sud
 
 ![Easy Cells Screenshot](https://github.com/James-P-D/Sudoku/blob/master/Easy.png)
 
-In the above initial board, concentrate on the 9x9 square in the middle-left of the board, and in this square, look at the cell in the very centre. We can instantly tell that value of this cell can't be `3 or 5` because of other values in the 9x9 square. We can also tell that is can't be `1, 3 or 6` because of other cells in the same column. Finally, from analysing the values in the rest of the row we can also tell that it can't be `2, 3, 7, 8, or 9`. Putting all this information together and we know the cell can't be `1, 2, 3, 5, 6, 7, 8 or 9`, and must therefore be `4`.
+In the above initial board, concentrate on the 9x9 square in the middle-left of the board, and in this square, look at the cell in the very centre.
+We can instantly tell that value of this cell can't be `3 or 5` because of other values in the 9x9 square. We can also tell that is can't be `1, 3 or 6` because of other cells in the same column. Finally, from analysing the values in the rest of the row we can also tell that it can't be `2, 3, 7, 8, or 9`. Putting all this information together and we know the cell can't be `1, 2, 3, 5, 6, 7, 8 or 9`, and must therefore be `4`.
 
 ### Medium Cells
 
@@ -23,4 +24,5 @@ Having found all the easy cells, we find ourselves with the following board:
 
 ![Medium Cells Screenshot](https://github.com/James-P-D/Sudoku/blob/master/Medium.png)
 
-There are no more easy solutions to be found, but let's consider the central 9x9 square, in particular, the empty cell at the bottom. 
+There are no more easy solutions to be found, but let's consider the central 9x9 square.
+This 9x9 square is missing the numbers `4, 5 and 6`. The numbers `4 and 5` could conceivably go in any of three available cells, but the number `6` *cannot* be on the top row because of the other `6` in the 9x9 square to the right. Therefore the `6` *must* be in the empty cell on the bottom row of the 3x3 square.
