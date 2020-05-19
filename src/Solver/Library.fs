@@ -1,69 +1,112 @@
 ﻿//namespace Solver
 
-//module Say =
- //   let hello name =
-  //      printfn "Hello %s" name
 module Library
 
+// Get an array of integers indexing the items for a particular row
+let row_indexes i = [for j in 0..8 -> ((i * 9) + j)]
+
+// Get an array of integers indexing the items for a particular column
+let col_indexes i = [for j in 0..8 -> ((j * 9) + i)]
+
+// Get an array of integers indexing the items for a particular cell
+let cell_indexes i = [for j in [0; 1; 2; 9; 10; 11; 18; 19; 20] -> ((((i / 3) * 9) * 3) + ((i % 3) * 3) + j)]
+
 // Get an array of integers for a given row 'i' in a given board 'l'
-let row i (l:list<int>) = [for j in 0..8 -> l.[(i * 9) + j]]
+let row i (l:list<int>) = [for j in (row_indexes i) -> l.[j]]
 
 // Get an array of integers for a given column 'i' in a given board 'l'
-let col i (l:list<int>) = [for j in 0..8 -> l.[(j * 9) + i]]
+let col i (l:list<int>) = [for j in (col_indexes i) -> l.[j]]
 
 // Get an array of integers for a given cell 'i' in a given board 'l'
-let cell i (l:list<int>) = [for j in [0; 1; 2; 9; 10; 11; 18; 19; 20] -> l.[(((i / 3) * 9) * 3) + ((i % 3) * 3) + j]]
+let cell i (l:list<int>) = [for j in (cell_indexes i) -> l.[j]]
 
 // Get the row number for an individual item
-let getRow i = i / 9
+let get_row i = i / 9
 
 // Get the column number for an individual item
-let getCol i = i % 9
+let get_col i = i % 9
 
 // Get the cell number for an individual item
-// Todo: Fix this into a forumula!!
-let getCell i = match i with
-                | 00 | 01 | 02 | 09 | 10 | 11 | 18 | 19 | 20 -> 0
-                | 03 | 04 | 05 | 12 | 13 | 14 | 21 | 22 | 23 -> 1
-                | 06 | 07 | 08 | 15 | 16 | 17 | 24 | 25 | 26 -> 2
-                | 27 | 28 | 29 | 36 | 37 | 38 | 45 | 46 | 47 -> 3
-                | 30 | 31 | 32 | 39 | 40 | 41 | 48 | 49 | 50 -> 4
-                | 33 | 34 | 35 | 42 | 43 | 44 | 51 | 52 | 53 -> 5                
-                | 54 | 55 | 56 | 63 | 64 | 65 | 72 | 73 | 74 -> 6
-                | 57 | 58 | 59 | 66 | 67 | 68 | 75 | 76 | 77 -> 7
-                | 60 | 61 | 62 | 69 | 70 | 71 | 78 | 79 | 80 -> 8
-                | _ -> -1
+// TODO: Fix this into a forumula!!
+let get_cell i = if (List.contains i (cell_indexes 0)) then 0
+                 elif (List.contains i (cell_indexes 1)) then 1
+                 elif (List.contains i (cell_indexes 2)) then 2
+                 elif (List.contains i (cell_indexes 3)) then 3
+                 elif (List.contains i (cell_indexes 4)) then 4
+                 elif (List.contains i (cell_indexes 5)) then 5
+                 elif (List.contains i (cell_indexes 6)) then 6
+                 elif (List.contains i (cell_indexes 7)) then 7
+                 elif (List.contains i (cell_indexes 8)) then 8
+                 else -1
+
+// Returns number of occurances of 'item' in list 'l'
+let occurances_of (item:int) (l:list<int>) = l |> Seq.filter ((=) item) |> Seq.length
+
+// Checks if a list (row, column or square) is valid (altough not necessarily
+// complete, hence why we do not check for occurances of zero)
+let is_valid (l:list<int>) = (occurances_of 1 l) <= 1 &&
+                             (occurances_of 2 l) <= 1 &&
+                             (occurances_of 3 l) <= 1 &&
+                             (occurances_of 4 l) <= 1 &&
+                             (occurances_of 5 l) <= 1 &&
+                             (occurances_of 6 l) <= 1 &&
+                             (occurances_of 7 l) <= 1 &&
+                             (occurances_of 8 l) <= 1 &&
+                             (occurances_of 9 l) <= 1
+
+let is_valid2 (l:list<int>) = [1..9] |> List.forall(fun i -> (occurances_of i l) <= 1)
 
 // Check to see if list 'l' contains item 'i'
 let rec contains i (l:list<int>) = match l with
                                    | [] -> false
                                    | head::tail -> (head = i) || (contains i tail)
-
-// Check to see if list 'l' is 9 elements long and contains full range of 1-9
-// (we can apply this to rows, columns or cells)
-let isComplete (l:list<int>) = (l.Length = 9) && 
-                               [1..9] |> List.forall(fun i -> contains i l)
-
-// Check to see if list 'l' (the board) is complete.
-let isBoardisComplete (l:list<int>) = (l.Length = 9 * 9) &&
-                                      [0..8] |> List.forall(fun i -> isComplete (row i l)) &&
-                                      [0..8] |> List.forall(fun i -> isComplete (col i l)) &&
-                                      [0..8] |> List.forall(fun i -> isComplete (cell i l))
+//
+//// Check to see if list 'l' is 9 elements long and contains full range of 1-9
+//// (we can apply this to rows, columns or cells)
+//let isComplete (l:list<int>) = (l.Length = 9) && 
+//                               [1..9] |> List.forall(fun i -> contains i l)
+//
+//// Check to see if list 'l' (the board) is complete.
+//let isBoardisComplete (l:list<int>) = (l.Length = 9 * 9) &&
+//                                      [0..8] |> List.forall(fun i -> isComplete (row i l)) &&
+//                                      [0..8] |> List.forall(fun i -> isComplete (col i l)) &&
+//                                      [0..8] |> List.forall(fun i -> isComplete (cell i l))
 
 // Get the positions in the board 'l' which currently have the value zero (unassigned)
-let zeroPositions (l:list<int>) = [0..(l.Length-1)] |> List.where(fun i -> (l.[i] = 0))
+let zero_positions (l:list<int>) = [0..(l.Length-1)] |> List.where(fun i -> (l.[i] = 0))
 
 // Get the list of numbers currently taken for a particular item 'i' in board 'l'
-let getTakenValues i (l:list<int>) =  List.distinct((row (getRow i) l) @ (col (getCol i) l) @ (cell (getCell i) l)) |> List.where(fun i -> i <> 0)
+let get_taken_values i (l:list<int>) =  List.distinct((row (get_row i) l) @ (col (get_col i) l) @ (cell (get_cell i) l)) |> List.where(fun i -> i <> 0)
 
 // Get the list of missing numbers for row/column/cell 'l'
-let findMissingNumbers (l:list<int>) = [1..9] |> List.where(fun i -> not (contains i l))
+let find_missing_numbers (l:list<int>) = [1..9] |> List.where(fun i -> not (contains i l))
 
-let singleCells (l:list<int>) = zeroPositions l |> List.where(fun i -> ((getTakenValues i l).Length = 8))
+// Get the list of cells where the number of number of taken values is already 8
+let single_cells (l:list<int>) = zero_positions l |> List.where(fun i -> ((get_taken_values i l).Length = 8))
 
-let findPossibleNumbers i (l:list<int>) = i
+let find_possible_numbers i (l:list<int>) = let cell_number = (get_cell i)
+                                            printfn "i = %d square = %d" i cell_number
+                                            let cell_item_index = cell_indexes cell_number
+                                            printfn "%A" cell_item_index
+                                            let existing_numbers_in_cell = cell cell_number l
+                                            let misNos = find_missing_numbers(existing_numbers_in_cell)
+                                            printfn "missing numbers for square %d are %A" cell_number misNos
+                                            i
 
-let findEasySolutions (l:list<int>) = [for i in singleCells l -> (i, findMissingNumbers (getTakenValues i l))]
+let rec replace_item_in_list_rec (l:list<int>) i x n = if l = [] then []
+                                                       elif i = n then x::(replace_item_in_list_rec (List.tail l) i x (n+1))
+                                                       else (List.head l)::(replace_item_in_list_rec (List.tail l) i x (n+1))
 
-let findMediumSolutions (l:list<int>) = [for i in zeroPositions l -> (i, findPossibleNumbers i l)]
+let replace_item_in_list (l:list<int>) i x = replace_item_in_list_rec l i x 0
 
+let findEasySolutions (l:list<int>) = [for i in (single_cells l) -> (i, find_missing_numbers (get_taken_values i l))]
+
+let findMediumSolutions (l:list<int>) = let l1 = [1..10]
+                                        printfn "l1 = %A" l1
+                                        let l2 = replace_item_in_list l1 3 9999
+                                        printfn "l2 = %A" l2
+
+//[for i in [48] -> (i, find_possible_numbers i l)]
+
+//let findMediumSolutions (l:list<int>) = [for i in zeroPositions l -> (i, findPossibleNumbers i l)]
+//let findMediumSolutions (l:list<int>) = [for i in [0..8] -> (i, findPossibleNumbers i l)]
