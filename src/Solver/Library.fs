@@ -84,6 +84,14 @@ let find_missing_numbers (l:list<int>) = [1..9] |> List.where(fun i -> not (cont
 // Get the list of cells where the number of number of taken values is already 8
 let single_cells (l:list<int>) = zero_positions l |> List.where(fun i -> ((get_taken_values i l).Length = 8))
 
+// In list 'l' change item at index 'i' to value 'x' (need 'n' for counting)
+let rec replace_item_in_list_rec (l:list<int>) i x n = if l = [] then []
+                                                       elif i = n then x::(replace_item_in_list_rec (List.tail l) i x (n + 1))
+                                                       else (List.head l)::(replace_item_in_list_rec (List.tail l) i x (n + 1))
+// In list 'l' change item at index 'i' to value 'x'
+let replace_item_in_list (l:list<int>) i x = replace_item_in_list_rec l i x 0
+
+
 let find_possible_numbers i (l:list<int>) = let cell_number = (get_cell i)
                                             printfn "i = %d square = %d" i cell_number
                                             let cell_item_index = cell_indexes cell_number
@@ -91,22 +99,29 @@ let find_possible_numbers i (l:list<int>) = let cell_number = (get_cell i)
                                             let existing_numbers_in_cell = cell cell_number l
                                             let misNos = find_missing_numbers(existing_numbers_in_cell)
                                             printfn "missing numbers for square %d are %A" cell_number misNos
+                                            printfn "-------------------------------------"
                                             i
 
-let rec replace_item_in_list_rec (l:list<int>) i x n = if l = [] then []
-                                                       elif i = n then x::(replace_item_in_list_rec (List.tail l) i x (n+1))
-                                                       else (List.head l)::(replace_item_in_list_rec (List.tail l) i x (n+1))
+let rec in_both_lists (l1:list<int>) (l2:list<int>) = if ((l1 = []) || (l2 = [])) then []
+                                                      elif (List.contains (List.head l1) l2) then (List.head l1)::(in_both_lists (List.tail l1) l2)
+                                                      else (in_both_lists (List.tail l1) l2)
 
-let replace_item_in_list (l:list<int>) i x = replace_item_in_list_rec l i x 0
+let find_zero_positions_in_cell i (l:list<int>) = let cell_number = (get_cell i)
+                                                  let current_cell_indexes = cell_indexes cell_number
+                                                  let all_zero_indexes = zero_positions l
+                                                  let all_zero_indexes_in_current_cell = in_both_lists current_cell_indexes all_zero_indexes
+                                                  all_zero_indexes_in_current_cell
+
+let do_stuff i (l:list<int>) = let all_zero_indexes_in_cell = find_zero_positions_in_cell i l
+                               printfn "items in cell that are zero = %A" all_zero_indexes_in_cell
+                               let missing_numbers_in_cell = find_missing_numbers (cell (get_cell i) l)
+                               printfn "missing numbers in cell = %A" missing_numbers_in_cell
+                               -1
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 let findEasySolutions (l:list<int>) = [for i in (single_cells l) -> (i, find_missing_numbers (get_taken_values i l))]
 
-let findMediumSolutions (l:list<int>) = let l1 = [1..10]
-                                        printfn "l1 = %A" l1
-                                        let l2 = replace_item_in_list l1 3 9999
-                                        printfn "l2 = %A" l2
-
 //[for i in [48] -> (i, find_possible_numbers i l)]
-
 //let findMediumSolutions (l:list<int>) = [for i in zeroPositions l -> (i, findPossibleNumbers i l)]
-//let findMediumSolutions (l:list<int>) = [for i in [0..8] -> (i, findPossibleNumbers i l)]
+let findMediumSolutions (l:list<int>) = do_stuff 48 l // [for i in [48] -> (i, find_possible_numbers i l)]
