@@ -116,12 +116,48 @@ namespace Sudoku
 
     private void stepSolveButton_Click(object sender, EventArgs e)
     {
-      this.Solve();
+      if (Library.is_board_complete(ListModule.OfSeq(CreateArray())))
+      {
+        MessageBox.Show("Board is already complete");
+      }
+      else
+      {
+        if (!this.Solve())
+        {
+          MessageBox.Show("No solutions found");
+        }
+        else if (Library.is_board_complete(ListModule.OfSeq(CreateArray())))
+        {
+          MessageBox.Show("Board is complete");
+        }
+      }
     }
 
     private void fullSolveButton_Click(object sender, EventArgs e)
     {
-      while (this.Solve()) ;
+      if (Library.is_board_complete(ListModule.OfSeq(CreateArray())))
+      {
+        MessageBox.Show("Board is already complete");
+      }
+      else
+      {
+        bool can_solve = this.Solve();
+        if (!can_solve)
+        {
+          MessageBox.Show("No solutions found");
+          return;
+        }
+
+        while (can_solve)
+        {
+          can_solve = this.Solve();
+        }
+
+        if (Library.is_board_complete(ListModule.OfSeq(CreateArray())))
+        {
+          MessageBox.Show("Board is complete");
+        }
+      }
     }
 
     private void resetButton_Click(object sender, EventArgs e)
