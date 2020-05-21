@@ -184,29 +184,30 @@ namespace Sudoku
         }
 
         easySolutions = Library.findEasySolutions(ListModule.OfSeq(CreateArray()));
+        Console.WriteLine("{0} easy solutions found", easySolutions.Length);
       }
 
-      Library.findMediumSolutions(ListModule.OfSeq(CreateArray()));
+      var mediumSolutions = Library.findMediumSolutions(ListModule.OfSeq(CreateArray()));
+      Console.WriteLine("{0} medium solutions found", mediumSolutions.Length);
+      
+      while (mediumSolutions.Length > 0)
+      {
+        foreach (var mediumSolution in mediumSolutions)
+        {
+          int index = mediumSolution.Item1;
+          int solution = mediumSolution.Item2.FirstOrDefault();
 
-      // Find 6 in middle square!
-      //var mediumSolutions = Library.findMediumSolutions(ListModule.OfSeq(CreateArray()));
-      //while (mediumSolutions.Length > 0)
-      //{
-      //  foreach (var mediumSolution in mediumSolutions)
-      //  {
-      //    int index = mediumSolution.Item1;
-      //    int solution = mediumSolution.Item2.FirstOrDefault();
+          Console.WriteLine("Medium solution: ({0}, {1}) = {2}", (index / 9), (index % 9), solution);
+          this.InputBoxes[index].Text = solution.ToString();
+          if (single)
+          {
+            return;
+          }
+        }
 
-      //    Console.WriteLine("Medium solution: ({0}, {1}) = {2}", (index / 9), (index % 9), solution);
-      //    this.InputBoxes[index].Text = solution.ToString();
-      //    if (single)
-      //    {
-      //      return;
-      //    }
-      //  }
-
-      //  easySolutions = Library.findEasySolutions(ListModule.OfSeq(CreateArray()));
-      //}
+        mediumSolutions = Library.findMediumSolutions(ListModule.OfSeq(CreateArray()));
+        Console.WriteLine("{0} medium solutions found", mediumSolutions.Length);
+      }
 
       Console.WriteLine("Now here!");
     }
