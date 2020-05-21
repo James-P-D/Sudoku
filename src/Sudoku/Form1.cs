@@ -116,12 +116,12 @@ namespace Sudoku
 
     private void stepSolveButton_Click(object sender, EventArgs e)
     {
-      this.Solve(true);
+      this.Solve();
     }
 
     private void fullSolveButton_Click(object sender, EventArgs e)
     {
-      this.Solve(false);
+      while (this.Solve()) ;
     }
 
     private void resetButton_Click(object sender, EventArgs e)
@@ -163,53 +163,36 @@ namespace Sudoku
       return list.ToArray();
     }
 
-    private void Solve(bool single)
+    private bool Solve()
     {
       var easySolutions = Library.findEasySolutions(ListModule.OfSeq(CreateArray()));
-      Console.WriteLine("{0} easy solutions found", easySolutions.Length);
-
-      while (easySolutions.Length > 0)
-      {
-        foreach (var easySolution in easySolutions)
-        {
-          int index = easySolution.Item1;
-          int solution = easySolution.Item2.FirstOrDefault();
-
-          Console.WriteLine("Easy solution: ({0}, {1}) = {2}", (index / 9), (index % 9), solution);
-          this.InputBoxes[index].Text = solution.ToString();
-          if (single)
-          {
-            return;
-          }
-        }
-
-        easySolutions = Library.findEasySolutions(ListModule.OfSeq(CreateArray()));
-        Console.WriteLine("{0} easy solutions found", easySolutions.Length);
-      }
-
-      var mediumSolutions = Library.findMediumSolutions(ListModule.OfSeq(CreateArray()));
-      Console.WriteLine("{0} medium solutions found", mediumSolutions.Length);
       
-      while (mediumSolutions.Length > 0)
+      if (easySolutions.Length > 0)
       {
-        foreach (var mediumSolution in mediumSolutions)
-        {
-          int index = mediumSolution.Item1;
-          int solution = mediumSolution.Item2.FirstOrDefault();
+        var easySolution = easySolutions.First();
 
-          Console.WriteLine("Medium solution: ({0}, {1}) = {2}", (index / 9), (index % 9), solution);
-          this.InputBoxes[index].Text = solution.ToString();
-          if (single)
-          {
-            return;
-          }
-        }
+        int index = easySolution.Item1;
+        int solution = easySolution.Item2.FirstOrDefault();
 
-        mediumSolutions = Library.findMediumSolutions(ListModule.OfSeq(CreateArray()));
-        Console.WriteLine("{0} medium solutions found", mediumSolutions.Length);
+        Console.WriteLine("Easy solution: ({0}, {1}) = {2}", (index / 9), (index % 9), solution);
+        this.InputBoxes[index].Text = solution.ToString();
+        return true;
+      }
+      
+      var mediumSolutions = Library.findMediumSolutions(ListModule.OfSeq(CreateArray()));
+      
+      if (mediumSolutions.Length > 0)
+      {
+        var mediumSolution = mediumSolutions.First();
+        int index = mediumSolution.Item1;
+        int solution = mediumSolution.Item2.FirstOrDefault();
+
+        Console.WriteLine("Medium solution: ({0}, {1}) = {2}", (index / 9), (index % 9), solution);
+        this.InputBoxes[index].Text = solution.ToString();
+        return true;
       }
 
-      Console.WriteLine("Now here!");
+      return false;
     }
   }
 }

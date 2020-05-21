@@ -117,14 +117,16 @@ let check_second_element x i = let (a, b) = x
 let do_stuff_ i (l:list<int>) = printfn "----------------------------------------------"
                                 printfn "item = %d" i
                                 let foo_bar = do_stuff i l
-                                printfn "%A" foo_bar
+                                printfn "foo_bar = %A" foo_bar
                                 let filtered = List.filter (fun x -> (check_second_element x i)) (foo_bar)                                
-                                printfn "%A" filtered
+                                printfn "filtered = %A" filtered
                                 let something = [for (a, _) in filtered -> a]
                                 something
+let do_stuff___ (l:list<int>) = [for i in (zero_positions l) -> (i, do_stuff_ i l)]
 
 // Find easy solutions on board 'l'
 let findEasySolutions (l:list<int>) = [for i in (single_cells l) -> (i, find_missing_numbers (get_taken_values i l))]
 
 // Find medium solutions on board 'l'
-let findMediumSolutions (l:list<int>) = [for i in (zero_positions l) -> (i, do_stuff_ i l)]
+let findMediumSolutions (l:list<int>) = List.filter(fun (a, b) -> List.length b <> 0) (do_stuff___ l)
+                                        
