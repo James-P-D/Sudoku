@@ -26,3 +26,8 @@ Having found all the easy cells, we find ourselves with the following board:
 
 There are no more easy solutions to be found, but let's consider the central 9x9 square.  
 This 9x9 square is missing the numbers `4, 5 and 6`. The numbers `4 and 5` could conceivably go in any of three available cells, but the number `6` *cannot* be on the top row because of the other `6` in the 9x9 square to the right. Therefore the `6` *must* be in the empty cell on the bottom row of the 3x3 square.
+
+### Hard Cells
+
+Brute force. Still to be implemented.
+
